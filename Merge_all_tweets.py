@@ -13,13 +13,8 @@ path_sample_1000 = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted
 path_sample_10000 = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/10000_sample_Bernie_Biden_Warren_aug_sep.csv'
 
 def concatenate(indir=input_path, outfile=path_merge):
-    dfList =[] 
-    os.chdir(indir)  
-    fileList = glob.glob('*.csv')  
-    for filename in fileList:
-        print(filename)
-        df=pd.read_csv(filename, skiprows=0, encoding=unicode)
-        dfList.append(df)
+    os.chdir(indir)
+    dfList = [pd.read_csv(filename,skiprows=0,encoding=unicode) for filename in glob.glob('*.csv')]
     concateDF = pd.concat(dfList, axis=0, sort=False)
     concateDF.columns = ['id','time','created_at','from_user_name','text','filter_level','possibly_sensitive','withheld_copyright','withheld_scope', \
     	'truncated','retweet_count','favorite_count','lang','to_user_name','in_reply_to_status_id','quoted_status_id','source','location','lat','lng',\
