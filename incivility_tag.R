@@ -13,7 +13,7 @@ tbl = tbl[, c('id', 'time', 'created_at','from_user_name','text','filter_level',
 
 uncivil_words <- readChar("C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/words.txt", nchars = 1e6)
 #words <- 
-tbl$incivility <- ifelse(grepl(uncivil_words,tbl$text),'1','0')
+tbl$incivility <- ifelse(grepl(uncivil_words,tbl$text, fixed = TRUE),'1','0')
 fwrite(tbl, 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/10000_sample_Bernie_Biden_Warren_aug_sep_tagged.csv')
 summary(tbl)
 
