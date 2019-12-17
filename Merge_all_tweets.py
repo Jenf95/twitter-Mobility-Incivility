@@ -23,8 +23,8 @@ def concatenate(indir=input_path, outfile=path_merge):
     	'from_user_listed','from_user_withheld_scope','from_user_created_at']
     concateDF.to_csv(path_merge, mode ='w', sep = ',',index=False, encoding=unicode)
 
-concatenate()
-
+#concatenate()
+'''
 #COUNT THE ENTRIES: 18,237,296 rows * 36 columns
 reader = pd.read_csv(path_merge, iterator=True) 
 col=['id','time','created_at','from_user_name','text','filter_level','possibly_sensitive','withheld_copyright','withheld_scope', \
@@ -65,3 +65,10 @@ s = 10000
 skip = sorted(random.sample(range(1,n),n-s))
 df = pd.read_csv(path_merge, skiprows = skip)
 df.to_csv(path_sample_10000, mode = 'w', index = False)
+'''
+
+def select_samples(file,sample_size, path):
+	n = 18237296
+	skip = sorted(random.sample(range(1,n),n-sample_size))
+	df = pd.read_csv(file, skiprows = skip)
+	return df.to_csv(path, mode = 'w', index = False)
