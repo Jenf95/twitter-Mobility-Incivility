@@ -7,9 +7,9 @@ import pandas as pd
 import re
 
 def retweet_handle():
-	file = "C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM797 Network Anlysis/final project/10000_sample_bernie_biden_warren_aug_sep.csv"
-	path_output = "C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM797 Network Anlysis/final project/network.csv"
-	df = pd.read_csv(file, encoding="unicode_escape")
+	file = "C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM797 Network Anlysis/final project/network_2.csv"
+	#path_output = "C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM797 Network Anlysis/final project/network.csv"
+	df = pd.read_csv(file)
 	def find_handle(row):
 		text = str(row['text'])
 		if text[:2] == 'RT':
@@ -20,7 +20,7 @@ def retweet_handle():
 		return row
 	df = df.apply(find_handle, axis = 1)
 	#print(df['retweetee'][3:10])
-	return df.to_csv(path_output, mode = 'w', sep = ',', index=False)
+	return df.to_csv(file, mode = 'w', sep = ',', index=False)
 
 
 retweet_handle()
