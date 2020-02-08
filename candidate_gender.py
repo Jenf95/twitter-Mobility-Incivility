@@ -14,14 +14,17 @@ def importTweets(filepath, header = None):
 def main():
 	"""
 	"""
-	tweet_path = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/labeledTweets.csv'
-	biden = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/biden_keywords.csv'
-	warren = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/warren_keywords.csv'
-	sanders = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/bernie_keywords.csv'
-	path_output = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/genderedTweets.csv'
+	names = ('biden','warren','sanders')
+	#tweet_path = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/labeledTweets.csv'
+	biden, warren, sanders = ['C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/{}_keywords.csv'.format(i) for i in names]
+	
+	#path_output = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/genderedTweets.csv'
 
-	tweets = importTweets(tweet_path, header=0)
+	path = 'C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/Manually_Coded_Data_1k.csv'
 
+
+	coded = importTweets(path, header = 0)
+	print('data ready')
 	biden = importTweets(biden)
 	#print(type(biden))
 	biden = biden.dropna(axis='columns',thresh=2)
@@ -39,16 +42,29 @@ def main():
 				return name + ' '
 		return ''
 
-	for text in tweets.iloc[:,4]:
+	for text in coded.iloc[:,6]:
 		temp = ''
 		temp+= check_candidate('biden', biden , text)
 		temp+= check_candidate('warren', warren , text)
 		temp+= check_candidate('sanders', sanders , text)
 		candidate.append(temp)
-	#print(candidate)
-	tweets['candidate'] = candidate
+	print(candidate)
+	coded['candidate'] = candidate
 
-	tweets.to_csv(path_output, mode ='w', sep = ',',index=False) 
+	#bsep, wsep, ssep = [coded[coded['candidate'].str.match('{}'.format(i) for i in ['biden','warren','sanders'])]]
+	bsep = coded[coded['candidate'].str.contains('biden')]
+	wsep = coded[coded['candidate'].str.contains('warren')]
+	ssep = coded[coded['candidate'].str.contains('sanders')]
+
+
+	#tweets.to_csv(path, mode ='w', sep = ',',index=False) 
+	#how do you export dataframes in batches
+	#lists = [bsep, wsep, ssep]
+	#for df in lists:
+		#df.to_csv(('C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/{}_coded.csv'.format(i) for i in names), mode = 'w', sep = ',', index = False)
+	bsep.to_csv('C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/biden_coded.csv', mode = 'w', sep = ',', index = False)		
+	wsep.to_csv('C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/warren_coded.csv', mode = 'w', sep = ',', index = False)		
+	ssep.to_csv('C:/Users/Jenny/Desktop/BU COM/Fall 2019/EM 855 Comp Assisted Text Analysis/Research Project/Data/sanders_coded.csv', mode = 'w', sep = ',', index = False)		
 
 if __name__ == '__main__':
 	main()
